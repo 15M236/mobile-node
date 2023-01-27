@@ -156,4 +156,30 @@ router.put('/update-quantity/:id', async(req, res, next) => {
 }
 })
 
+router.post('/add-products', validateToken ,adminGaurd, async(req,res) => {
+  try {
+    let product = await productModel.find({productId:req.body.productId})
+    if(product.length > 0) {
+      res.send({
+        statusCode : 200 ,
+        message : "Product already exists"
+      })
+    }else{
+      let addProduct = await productModel.create(req.body)   
+      res.send({
+        statusCode:200,
+        message:"Product added Successfull!",
+      })
+      
+    }
+  }catch(error){
+    console.log(error)
+    res.send({
+      statusCode:500,
+      message:"Internal Server Error",
+      error
+    })
+  }
+})
+
 module.exports = router;
