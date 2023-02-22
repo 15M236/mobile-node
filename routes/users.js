@@ -102,6 +102,19 @@ router.post('/add-products', validateToken ,adminGaurd, async(req,res) => {
   }
 })
 
-
+router.get('/get-data/:email' , async(req, res) => {
+  try {
+    let user = await usersModel.findOne({email : req.params.email})
+    res.send({
+      statusCode : 200 ,
+      user
+    })
+  }catch (error) {
+    res.send({
+      statusCode : 500 ,
+      message : error.message
+    })
+  }
+})
 
 module.exports = router;
